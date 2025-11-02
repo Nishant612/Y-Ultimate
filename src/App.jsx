@@ -3,6 +3,7 @@ import { AuthProvider, useAuth } from "./context/AuthContext";
 import { Toaster } from "@/components/ui/sonner";
 import Login from "./pages/auth/Login";
 import Signup from "./pages/auth/Signup";
+import Dashboard from "./pages/Dashboard";
 
 // Protected Route Component
 function ProtectedRoute({ children }) {
@@ -17,11 +18,6 @@ function ProtectedRoute({ children }) {
   }
 
   return user ? children : <Navigate to="/login" />;
-}
-
-// Temporary Dashboard (we'll build this next)
-function Dashboard() {
-  return <div className="p-8">Dashboard - Coming Soon</div>;
 }
 
 function App() {
