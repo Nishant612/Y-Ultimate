@@ -1,5 +1,6 @@
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 import {
   Card,
   CardContent,
@@ -12,7 +13,6 @@ import {
   Users,
   Trophy,
   GraduationCap,
-  Plus,
   LogOut,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -62,24 +62,6 @@ export default function Dashboard() {
     },
   ];
 
-  const quickActions = [
-    {
-      label: "Create Tournament",
-      icon: Trophy,
-      action: () => navigate("/tournaments/create"),
-    },
-    {
-      label: "Add Coaching Program",
-      icon: GraduationCap,
-      action: () => navigate("/coaching/create"),
-    },
-    {
-      label: "Register Participant",
-      icon: Users,
-      action: () => navigate("/participants/register"),
-    },
-  ];
-
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -90,7 +72,7 @@ export default function Dashboard() {
               <img
                 src="/logo.png"
                 alt="Y-Ultimate"
-                className="w-10 h-10 rounded-full"
+                className="w-[5rem] h-auto object-contain"
               />
               <h1 className="text-xl font-bold text-gray-900">
                 Y-Ultimate Platform
@@ -163,20 +145,35 @@ export default function Dashboard() {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {quickActions.map((action, index) => {
-                const Icon = action.icon;
-                return (
-                  <Button
-                    key={index}
-                    variant="outline"
-                    className="h-auto py-6 flex flex-col items-center justify-center space-y-2"
-                    onClick={action.action}
-                  >
-                    <Icon className="w-8 h-8 text-purple-600" />
-                    <span className="font-medium">{action.label}</span>
-                  </Button>
-                );
-              })}
+              <Link to="/tournaments/create">
+                <Button
+                  variant="outline"
+                  className="w-full h-auto py-6 flex flex-col items-center justify-center space-y-2"
+                >
+                  <Trophy className="w-8 h-8 text-purple-600" />
+                  <span className="font-medium">Create Tournament</span>
+                </Button>
+              </Link>
+
+              <Link to="/coaching/create">
+                <Button
+                  variant="outline"
+                  className="w-full h-auto py-6 flex flex-col items-center justify-center space-y-2"
+                >
+                  <GraduationCap className="w-8 h-8 text-purple-600" />
+                  <span className="font-medium">Add Coaching Program</span>
+                </Button>
+              </Link>
+
+              <Link to="/participants/register">
+                <Button
+                  variant="outline"
+                  className="w-full h-auto py-6 flex flex-col items-center justify-center space-y-2"
+                >
+                  <Users className="w-8 h-8 text-purple-600" />
+                  <span className="font-medium">Register Participant</span>
+                </Button>
+              </Link>
             </div>
           </CardContent>
         </Card>
