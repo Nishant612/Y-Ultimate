@@ -53,22 +53,37 @@ export const AuthProvider = ({ children }) => {
   };
 
   const signUp = async (email, password, name, role) => {
+    console.log("🔍 SignUp called with:", { email, name, role });
+
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
     });
 
+    console.log("✅ Auth signup result:", data);
+    console.log("❌ Auth error:", error);
+
     if (!error && data.user) {
-      // Create profile with name
-      const { error: profileError } = await supabase.from("profiles").insert({
+      console.log("📝 About to create profile with:", {
         id: data.user.id,
         email,
-        name,
+        name, // ← Check if this is actually the name or empty!
         role,
       });
 
+      const { data: profileData, error: profileError } = await supabase
+        .from("profiles")
+        .insert({
+          id: data.user.id,
+          email,
+          name,
+          role,
+        });
+
+      console.log("📊 Profile insert result:", { profileData, profileError });
+
       if (profileError) {
-        console.error("Profile creation error:", profileError);
+        console.error("❌ Profile creation error:", profileError);
       }
     }
 
