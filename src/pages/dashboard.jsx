@@ -13,25 +13,17 @@ import {
   Users,
   Trophy,
   GraduationCap,
-  LogOut,
   Home,
   FileText,
   CheckCircle,
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getRoleLabel, getModuleForRole } from "@/lib/roles";
+import { getRoleLabel } from "@/lib/roles";
 
 export default function Dashboard() {
-  const { user, profile, signOut } = useAuth();
-  const navigate = useNavigate();
+  const { profile } = useAuth();
   const [stats, setStats] = useState([]);
   const [quickActions, setQuickActions] = useState([]);
-
-  const handleSignOut = async () => {
-    await signOut();
-    navigate("/login");
-  };
 
   useEffect(() => {
     if (profile?.role) {
@@ -361,11 +353,11 @@ export default function Dashboard() {
       ];
       actionsData = [
         {
-          label: "Register Team",
+          label: "Manage Teams",
           icon: Users,
-          link: "/tournaments/register-team",
+          link: "/teams",
         },
-        { label: "My Teams", icon: Users, link: "/teams/my" },
+        { label: "View Tournaments", icon: Trophy, link: "/tournaments" },
         {
           label: "Submit Spirit Score",
           icon: Trophy,
@@ -523,7 +515,6 @@ export default function Dashboard() {
     setQuickActions(actionsData);
   };
 
-  // Show loading state
   if (!profile) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -549,39 +540,6 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-3">
-              <img
-                src="/logo.png"
-                alt="Y-Ultimate"
-                className="w-[5rem] h-auto object-contain"
-              />
-              <h1 className="text-xl font-bold text-gray-900">
-                Y-Ultimate Platform
-              </h1>
-            </div>
-            <div className="flex items-center space-x-4">
-              <div className="text-right">
-                <p className="text-sm font-medium text-gray-900">
-                  {profile?.name || user?.email}
-                </p>
-                <p className="text-xs text-gray-500">
-                  {getRoleLabel(profile?.role)}
-                </p>
-              </div>
-              <Button variant="outline" size="sm" onClick={handleSignOut}>
-                <LogOut className="w-4 h-4 mr-2" />
-                Logout
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Welcome Section */}
         <div className="mb-8">
@@ -652,7 +610,6 @@ export default function Dashboard() {
 
         {/* Recent Activity Widgets */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Show for coaching roles */}
           {["programme_director", "programme_manager", "coach"].includes(
             profile.role
           ) && (
@@ -673,7 +630,6 @@ export default function Dashboard() {
             </Card>
           )}
 
-          {/* Show for tournament roles */}
           {["tournament_director", "team_manager", "volunteer"].includes(
             profile.role
           ) && (
